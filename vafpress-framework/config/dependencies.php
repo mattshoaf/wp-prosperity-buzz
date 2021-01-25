@@ -18,10 +18,15 @@ return array(
 		'always' => array('jquery', 'scrollspy', 'tipsy', 'jquery-typing'),
 		'paths' => array(
 			'jquery' => array(
-				'path'     => VP_PUBLIC_URL . '/js/vendor/jquery-1.8.3.min.js',
+				'path'     => '//code.jquery.com/jquery-1.12.4.js',
 				'deps'     => array(),
 				'ver'      => '1.8.3',
 				'override' => false,
+			),
+			'jq-migrate' => array(
+				'path'		 => VP_PUBLIC_URL . 'js/vendor/jquery-migrate-1.4.1.min.js',
+				'deps'		 => array('jquery'),
+				'ver'			 => '1.4.1',
 			),
 			'bootstrap-colorpicker' => array(
 				'path'     => VP_PUBLIC_URL . '/js/vendor/bootstrap-colorpicker.js',
@@ -110,7 +115,7 @@ return array(
 				)
 			),
 			'vp-option' => array(
-				'path'     => VP_PUBLIC_URL . '/js/option.min.js',
+				'path'     => VP_PUBLIC_URL . '/js/option.js',
 				'deps'     => array(),
 				'ver'      => '2.0',
 				'localize' => array(
