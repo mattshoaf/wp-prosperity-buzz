@@ -1,5 +1,5 @@
 // tipsy, facebook style tooltips for jquery
-// version 1.0.0a
+// version 1.0.0b
 // (c) 2008-2010 jason frame [jason@onehackoranother.com]
 // released under the MIT license
 
@@ -174,10 +174,11 @@
         if (!options.live) this.each(function() { get(this); });
         
         if (options.trigger != 'manual') {
-            var binder   = options.live ? 'live' : 'bind',
-                eventIn  = options.trigger == 'hover' ? 'mouseenter' : 'focus',
-                eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
-            this[binder](eventIn, enter)[binder](eventOut, leave);
+            eventIn  = options.trigger == 'hover' ? 'mouseenter' : 'focus',
+            eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
+
+            this.on(eventIn, null, enter)
+            this.on(eventOut, null, leave);
         }
         
         return this;
