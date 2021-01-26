@@ -1,3 +1,12 @@
+*** WP-Prosperity Buzz Changelog ***
+/*-------------------------------------------------------*/
+// 1/26/2021 - version 3
+/*-------------------------------------------------------*/
+1. Updated some depreciated jQuery functions
+2. Updated jQuery to 1.12 from 1.8
+3. Added jQuery migrate as a dependency
+4. Version 3.0.1 changes theme updater to use Github
+
 *** WP-Prosperity Changelog ***
 
 /*-------------------------------------------------------*/
