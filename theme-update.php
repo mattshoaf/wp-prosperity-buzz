@@ -1,63 +1,90 @@
 <?php
 
 /*-----------------------------------------------------------------------------------*/
-// WP-UPDATES THEME UPDATER CLASS V2.0 - http://wp-updates.com
-// SINCE VERSION 2.5
+// WP-UPDATES THEME UPDATER CLASS V3.0 - https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
+// UPDATED TO GITHUB VERSION 3.0
 /*-----------------------------------------------------------------------------------*/
 
-if (!class_exists('WPUpdatesThemeUpdater_1172')) {
-	class WPUpdatesThemeUpdater_1172 {
+if (!class_exists('Theme_Updater')) {
+	class Theme_Updater {
     
-		var $api_url;
-		var $theme_id = 1172;
-		var $theme_slug;
-		var $license_key;
+		private $file;
+		private $api_url;
+		private $github_response;
+		private $basename;
+		private $git_basename;
+		private $theme;
     
-		function __construct( $api_url, $theme_slug, $license_key = null ) {
+		function __construct( $file, $api_url = 'https://api.github.com/repos/mattshoaf/wp-prosperity-buzz/releases' ) {
+			$this->file = $file;
 			$this->api_url = $api_url;
-			$this->theme_slug = $theme_slug;
-			$this->license_key = $license_key;
+			$this->basename = 'wp-prosperity';
+			$this->git_basename = 'wp-prosperity-buzz';
+			$this->theme = wp_get_theme('wp-prosperity');
     
-			add_filter( 'pre_set_site_transient_update_themes', array(&$this, 'check_for_update') );
+			add_filter( 'pre_set_site_transient_update_themes', array(&$this, 'modify_transient') );
+			add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
     		
 			// This is for testing only!
-			//set_site_transient('update_themes', null);
+			// set_site_transient('update_themes', null);
 		}
-    	
-		function check_for_update( $transient ) {
-			if (empty($transient->checked)) return $transient;
-        	
-			$request_args = array(
-				'id' => $this->theme_id,
-				'slug' => $this->theme_slug,
-				'version' => $transient->checked[$this->theme_slug]
-			);
-			if ($this->license_key) $request_args['license'] = $this->license_key;
-    		
-			$request_string = $this->prepare_request( 'theme_update', $request_args );
-			$raw_response = wp_remote_post( $this->api_url, $request_string );
-        	
-			$response = null;
-			if( !is_wp_error($raw_response) && ($raw_response['response']['code'] == 200) )
-				$response = unserialize($raw_response['body']);
-    		
-			if( !empty($response) ) // Feed the update data into WP updater
-				$transient->response[$this->theme_slug] = $response;
-        	
-			return $transient;
+
+		private function get_repository_info() {
+			if ( is_null( $this->github_response ) ) { // Do we have a response?
+       
+				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $this->api_url ) ), true ); // Get JSON and parse it
+				
+				if( is_array( $response ) ) { // If it is an array
+						$response = current( $response ); // Get the first item
+				}
+
+				$this->github_response = $response; // Set it to our property  
+			}
 		}
-        
-		function prepare_request( $action, $args ) {
-			global $wp_version;
-    		
-			return array(
-				'body' => array(
-					'action' => $action, 
-					'request' => serialize($args),
-					'api-key' => md5(home_url())
-				),
-				'user-agent' => 'WordPress/'. $wp_version .'; '. home_url()
-			);	
+
+		public function modify_transient( $transient ) {
+			if($transient) {
+				if( property_exists( $transient, 'checked') ) { // Check if transient has a checked property
+		
+					if( $checked = $transient->checked ) { // Did Wordpress check for updates?
+						$this->get_repository_info(); // Get the repo info
+		
+						$out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
+		
+						if( $out_of_date ) {
+		
+							$new_files = $this->github_response['zipball_url']; // Get the ZIP
+		
+							$slug = current( explode('/', $this->basename ) ); // Create valid slug
+		
+							$plugin = array( // setup our plugin info
+								'url' => $this->theme["ThemeURI"],
+								'slug' => $slug,
+								'package' => $new_files,
+								'new_version' => $this->github_response['tag_name']
+							);
+		
+							$transient->response[$this->basename] = $plugin; // Return it in response
+						}
+					}
+				}
+			}
+			return $transient; // Return filtered transient
 		}
+
+		public function after_install( $response, $hook_extra, $result ) {
+			global $wp_filesystem; // Get global FS object
+	
+			$install_directory = get_template_directory(); // Our theme directory
+			$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the plugin dir
+			$result['destination'] = $install_directory; // Set the destination for the rest of the stack
+	
+			// if ( $this->active ) { // If it was active
+			// 	activate_plugin( $this->basename ); // Reactivate
+			// }
+	
+			return $result;
+		}
+
 	}
 }
