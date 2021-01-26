@@ -1459,11 +1459,11 @@ endif;
 
 /*-----------------------------------------------------------------------------------*/
 // FUNCTION FOR AUTOMATIC THEME UPDATES
-// @since 2.5
+// @since 3.0
 /*-----------------------------------------------------------------------------------*/
 
 require_once('theme-update.php');
-new WPUpdatesThemeUpdater_1172( 'http://wp-updates.com/api/2/theme', basename(get_template_directory()) );
+new Theme_Updater( __FILE__ );
 
 
 
