@@ -21,6 +21,7 @@ if (!class_exists('Theme_Updater')) {
 			$this->basename = 'wp-prosperity';
 			$this->git_basename = 'wp-prosperity-buzz';
 			$this->theme = wp_get_theme('wp-prosperity');
+			$this->access_token = tb_option('githubtoken');
 		    
 			add_filter( 'pre_set_site_transient_update_themes', array(&$this, 'modify_transient') );
 			add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
@@ -28,13 +29,13 @@ if (!class_exists('Theme_Updater')) {
 
     		
 			// This is for testing only!
-			set_site_transient('update_themes', null);
+			// set_site_transient('update_themes', null);
 		}
 
 		private function get_repository_info() {
 			if ( is_null( $this->github_response ) ) { // Do we have a response?
 
-				$request_uri = add_query_arg('access_token', 'e67a5374082ec90e8ac29d47d488c23ca2fc9c02', $this->api_url );
+				$request_uri = add_query_arg('access_token', $this->access_token, $this->api_url );
 
 				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $request_uri ) ), true ); // Get JSON and parse it
 				
@@ -90,7 +91,7 @@ if (!class_exists('Theme_Updater')) {
 		public function after_switch( $new_name, $new_theme, $old_theme ) {
 			// If the new theme has errors, it's probably because the install directory got weird coming from github.
 			// Reset to the proper directory.
-			if( $new_theme->errors() != FALSE ) switch_theme( $this->basename );
+			if( $new_theme->get_stylesheet() != $this->basename ) switch_theme( $this->basename );
 		}
 
 	}

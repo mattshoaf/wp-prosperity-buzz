@@ -83,6 +83,12 @@ return array(
 					'title' => __('General Settings', 'themebeagle'),
 					'fields' => array(
 						array(
+							'type' => 'textbox',
+							'name' => 'githubtoken',
+							'label' => 'Github Personal Access Token',
+							'description' => __('Your Github Peronsal Access Token with read repo and package permissions.', 'themebeagle')
+						),
+						array(
 							'type' => 'toggle',
 							'name' => 'unboxed',
 							'label' => __('Use Wide/Unboxed Layout Option ', 'themebeagle'),
