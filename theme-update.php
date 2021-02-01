@@ -35,9 +35,13 @@ if (!class_exists('Theme_Updater')) {
 		private function get_repository_info() {
 			if ( is_null( $this->github_response ) ) { // Do we have a response?
 
-				$request_uri = add_query_arg('access_token', $this->access_token, $this->api_url );
+				$args = [
+					'headers' => [
+						'Authorization: token ' . $this->access_token,
+					]
+				];
 
-				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $request_uri ) ), true ); // Get JSON and parse it
+				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $this->api_url, $args ) ), true ); // Get JSON and parse it
 				
 				if( is_array( $response ) ) { // If it is an array
 						$response = current( $response ); // Get the first item
