@@ -1,7 +1,7 @@
 <?php
 
 /*-----------------------------------------------------------------------------------*/
-// WP-UPDATES THEME UPDATER CLASS V3.0 - https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
+// WP-UPDATES THEME UPDATER CLASS V3.0 - Adapted from https://www.smashingmagazine.com/2015/08/deploy-wordpress-plugins-with-github-using-transients/
 // UPDATED TO GITHUB VERSION 3.0
 /*-----------------------------------------------------------------------------------*/
 
@@ -14,25 +14,29 @@ if (!class_exists('Theme_Updater')) {
 		private $basename;
 		private $git_basename;
 		private $theme;
-    
+		    
 		function __construct( $file, $api_url = 'https://api.github.com/repos/mattshoaf/wp-prosperity-buzz/releases' ) {
 			$this->file = $file;
 			$this->api_url = $api_url;
 			$this->basename = 'wp-prosperity';
 			$this->git_basename = 'wp-prosperity-buzz';
 			$this->theme = wp_get_theme('wp-prosperity');
-    
+		    
 			add_filter( 'pre_set_site_transient_update_themes', array(&$this, 'modify_transient') );
 			add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
+			add_action( 'switch_theme', [$this, 'after_switch'], 0 , 3 );
+
     		
 			// This is for testing only!
-			// set_site_transient('update_themes', null);
+			set_site_transient('update_themes', null);
 		}
 
 		private function get_repository_info() {
 			if ( is_null( $this->github_response ) ) { // Do we have a response?
-       
-				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $this->api_url ) ), true ); // Get JSON and parse it
+
+				$request_uri = add_query_arg('access_token', 'e67a5374082ec90e8ac29d47d488c23ca2fc9c02', $this->api_url );
+
+				$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $request_uri ) ), true ); // Get JSON and parse it
 				
 				if( is_array( $response ) ) { // If it is an array
 						$response = current( $response ); // Get the first item
@@ -76,14 +80,17 @@ if (!class_exists('Theme_Updater')) {
 			global $wp_filesystem; // Get global FS object
 	
 			$install_directory = get_template_directory(); // Our theme directory
-			$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the plugin dir
-			$result['destination'] = $install_directory; // Set the destination for the rest of the stack
-	
-			// if ( $this->active ) { // If it was active
-			// 	activate_plugin( $this->basename ); // Reactivate
-			// }
+			
+			$wp_filesystem->move( $result['destination'], $install_directory ); // Move files to the theme dir
+			$result['destination'] = $install_directory; // Set the destination for the rest of the stack			
 	
 			return $result;
+		}
+
+		public function after_switch( $new_name, $new_theme, $old_theme ) {
+			// If the new theme has errors, it's probably because the install directory got weird coming from github.
+			// Reset to the proper directory.
+			if( $new_theme->errors() != FALSE ) switch_theme( $this->basename );
 		}
 
 	}
