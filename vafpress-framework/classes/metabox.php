@@ -27,7 +27,6 @@ class VP_Metabox extends WPAlchemy_MetaBox
 		{
 			$arr = include $arr;
 		}
-		parent::__construct($arr);
 
 		// Modify title in dev mode
 		if( $this->is_dev_mode )
