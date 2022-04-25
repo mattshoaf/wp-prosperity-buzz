@@ -4,20 +4,15 @@
 // This starts the Tabs widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'tabs_load_widgets' );
-function tabs_load_widgets() {
-	register_widget( 'Tabs_Widget' );
-}
-
 class Tabs_Widget extends WP_Widget {
 
-	function Tabs_Widget() {
+	function __construct() {
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'tabs', 'description' => __('Adds the Tabs box for popular posts, archives, categories and tags.', "themebeagle") );
+		$widget_ops = array( 'classname' => 'tabs', 'description' => 'Adds the Tabs box for popular posts, archives, categories and tags.' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'tabs-widget' );
 		/* Create the widget. */
-		parent::__construct( 'tabs-widget', __('WP-Prosperity Tabs', "themebeagle"), $widget_ops, $control_ops );
+		parent::__construct( 'tabs-widget', 'WP-Prosperity Tabs', $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -90,25 +85,26 @@ class Tabs_Widget extends WP_Widget {
 
 }
 
+add_action( 'widgets_init', 'tabs_load_widgets' );
+
+function tabs_load_widgets() {
+	register_widget('Tabs_Widget');
+}
+
 /*-----------------------------------------------------------------------------------*/
 // Social Media Icons widget
 // @since 1.0
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'socialicons_load_widgets' );
-function socialicons_load_widgets() {
-	register_widget( 'Socialicons_Widget' );
-}
-
 class Socialicons_Widget extends WP_Widget {
 
-	function Socialicons_Widget() {
+	function __construct() {
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'socialicons', 'description' => __('Adds the Social Media Icons.', "themebeagle") );
+		$widget_ops = array( 'classname' => 'socialicons', 'description' => 'Adds the Social Media Icons.' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'socialicons-widget' );
 		/* Create the widget. */
-		parent::__construct( 'socialicons-widget', __('WP-Prosperity Social Media Icons', "themebeagle"), $widget_ops, $control_ops );
+		parent::__construct( 'socialicons-widget', 'WP-Prosperity Social Media Icons', $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -194,24 +190,25 @@ class Socialicons_Widget extends WP_Widget {
 	<?php }
 }
 
+add_action( 'widgets_init', 'socialicons_load_widgets' );
+
+function socialicons_load_widgets() {
+	register_widget( 'Socialicons_Widget' );
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the Category Posts widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'catposts_load_widgets' );
-function catposts_load_widgets() {
-	register_widget( 'Catposts_Widget' );
-}
-
 class Catposts_Widget extends WP_Widget {
 
-	function Catposts_Widget() {
+	function __construct() {
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'catposts', 'description' => __('Adds posts from a specific category .', "themebeagle") );
+		$widget_ops = array( 'classname' => 'catposts', 'description' => 'Adds posts from a specific category ' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'catposts-widget' );
 		/* Create the widget. */
-		parent::__construct( 'catposts-widget', __('WP-Prosperity Category Posts', "themebeagle"), $widget_ops, $control_ops );
+		parent::__construct( 'catposts-widget', 'WP-Prosperity Category Posts', $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -326,18 +323,22 @@ class Catposts_Widget extends WP_Widget {
 	<?php }
 }
 
+add_action( 'widgets_init', 'catposts_load_widgets' );
+
+function catposts_load_widgets() {
+	register_widget( 'Catposts_Widget' );
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the Featured Page Widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action('widgets_init', create_function('', "register_widget('Featured_Page');"));
-
 class Featured_Page extends WP_Widget {
 
-	function Featured_Page() {
-		$widget_ops = array( 'classname' => 'featuredpage', 'description' => __('Displays a featured page with thumbnail and excerpt.', 'themebeagle') );
+	function __construct() {
+		$widget_ops = array( 'classname' => 'featuredpage', 'description' => 'Displays a featured page with thumbnail and excerpt.');
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'featured-page' );
-		parent::__construct( 'featured-page', __('WP-Prosperity Featured Page', 'themebeagle'), $widget_ops, $control_ops );
+		parent::__construct( 'featured-page', 'WP-Prosperity Featured Page', $widget_ops, $control_ops );
 	}
 
 	function widget($args, $instance) {
@@ -500,18 +501,22 @@ class Featured_Page extends WP_Widget {
 	}
 }
 
+add_action('widgets_init', 'subscribe_featured_page');
+
+function subscribe_featured_page() {
+	register_widget('Featured_Page');
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the Featured Post Widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action('widgets_init', create_function('', "register_widget('Featured_Post');"));
-
 class Featured_Post extends WP_Widget {
 
-	function Featured_Post() {
-		$widget_ops = array( 'classname' => 'featuredpage', 'description' => __('Displays a featured post with thumbnail and excerpt.', 'themebeagle') );
+	function __construct() {
+		$widget_ops = array( 'classname' => 'featuredpage', 'description' => 'Displays a featured post with thumbnail and excerpt.' );
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'featured-post' );
-		parent::__construct( 'featured-post', __('WP-Prosperity Featured Post', 'themebeagle'), $widget_ops, $control_ops );
+		parent::__construct( 'featured-post', 'WP-Prosperity Featured Post', $widget_ops, $control_ops );
 	}
 
 	function widget($args, $instance) {
@@ -675,25 +680,25 @@ class Featured_Post extends WP_Widget {
 	}
 }
 
+add_action('widgets_init', 'subscribe_featured_post');
+
+function subscribe_featured_post() {
+	register_widget('Featured_Post');
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the Subscribe Box widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'subscribebox_load_widgets' );
-
-function subscribebox_load_widgets() {
-	register_widget( 'SubscribeBox_Widget' );
-}
-
 class SubscribeBox_Widget extends WP_Widget {
 
-	function SubscribeBox_Widget() {
+	function __construct() {
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'subscribebox', 'description' => __('Adds an email subscription form and/or Social Media Icons.', "themebeagle") );
+		$widget_ops = array( 'classname' => 'subscribebox', 'description' => 'Adds an email subscription form and/or Social Media Icons.' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'subscribebox-widget' );
 		/* Create the widget. */
-		parent::__construct( 'subscribebox-widget', __('WP-Prosperity Subscribe Box', "themebeagle"), $widget_ops, $control_ops );
+		parent::__construct( 'subscribebox-widget', 'WP-Prosperity Subscribe Box', $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -830,26 +835,26 @@ class SubscribeBox_Widget extends WP_Widget {
 	}
 }
 
+add_action( 'widgets_init', 'subscribebox_load_widgets' );
+
+function subscribebox_load_widgets() {
+	register_widget( 'SubscribeBox_Widget' );
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the WP-Prosperity Text Widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'prosperitytext_load_widgets' );
-
-function prosperitytext_load_widgets() {
-	register_widget( 'ProsperityText_Widget' );
-}
-
 class ProsperityText_Widget extends WP_Widget {
 
-	function ProsperityText_Widget() {
+	function __construct() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'prosperitytext', 'description' => __('Adds the WP-Prosperity text widget.', 'themebeagle') );
+		$widget_ops = array( 'classname' => 'prosperitytext', 'description' => 'Adds the WP-Prosperity text widget.' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 400, 'height' => 700, 'id_base' => 'prosperitytext-widget' );
 		/* Create the widget. */
-		parent::__construct( 'prosperitytext-widget', __('WP-Prosperity Text Widget', 'themebeagle'), $widget_ops, $control_ops );
+		parent::__construct( 'prosperitytext-widget', 'WP-Prosperity Text Widget', $widget_ops, $control_ops );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_footer-widgets.php', array( $this, 'print_scripts' ), 9999 );
@@ -1033,26 +1038,26 @@ class ProsperityText_Widget extends WP_Widget {
 	}
 }
 
+add_action( 'widgets_init', 'prosperitytext_load_widgets' );
+
+function prosperitytext_load_widgets() {
+	register_widget( 'ProsperityText_Widget' );
+}
+
 /*-----------------------------------------------------------------------------------*/
 // This starts the WP-Prosperity Author Widget.
 /*-----------------------------------------------------------------------------------*/
 
-add_action( 'widgets_init', 'tbauthor_load_widgets' );
-
-function tbauthor_load_widgets() {
-	register_widget( 'Tbauthor_Widget' );
-}
-
 class Tbauthor_Widget extends WP_Widget {
 
-	function Tbauthor_Widget() {
+	function __construct() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'tbauthor', 'description' => __('Adds the WP-Prosperity Author widget.', 'themebeagle') );
+		$widget_ops = array( 'classname' => 'tbauthor', 'description' => 'Adds the WP-Prosperity Author widget.' );
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 400, 'height' => 700, 'id_base' => 'tbauthor-widget' );
 		/* Create the widget. */
-		parent::__construct( 'tbauthor-widget', __('WP-Prosperity Author Widget', 'themebeagle'), $widget_ops, $control_ops );
+		parent::__construct( 'tbauthor-widget', 'WP-Prosperity Author Widget', $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -1216,6 +1221,13 @@ class Tbauthor_Widget extends WP_Widget {
 
 	<?php
 	}
+}
+
+
+add_action( 'widgets_init', 'tbauthor_load_widgets' );
+
+function tbauthor_load_widgets() {
+	register_widget( 'Tbauthor_Widget' );
 }
 
 ?>
