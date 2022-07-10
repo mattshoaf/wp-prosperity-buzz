@@ -23,6 +23,7 @@ class VP_Metabox extends WPAlchemy_MetaBox
 
 	function __construct($arr)
 	{
+		parent::__construct($arr);
 		if( !is_array($arr) and file_exists($arr) )
 		{
 			$arr = include $arr;

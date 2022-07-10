@@ -450,7 +450,7 @@ class WPAlchemy_MetaBox
 	 */
 	var $_loop_data;
 	
-	function WPAlchemy_MetaBox($arr)
+	function __construct($arr)
 	{
 		$this->_loop_data = new stdClass;
 		
@@ -1611,8 +1611,6 @@ class WPAlchemy_MetaBox
 		// WPALCHEMY_MODE_ARRAY
 
 		$meta = get_post_meta($post_id, $this->id, TRUE);
-
-		// var_dump($meta);
 
 		// WPALCHEMY_MODE_EXTRACT
 
