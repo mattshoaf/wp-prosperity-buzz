@@ -1455,19 +1455,6 @@ add_action( 'wp_head', 'themebeagle_render_title' );
 endif;
 
 
-
-
-/*-----------------------------------------------------------------------------------*/
-// FUNCTION FOR AUTOMATIC THEME UPDATES
-// @since 3.0
-/*-----------------------------------------------------------------------------------*/
-
-require_once('theme-update.php');
-new Theme_Updater( __FILE__ );
-
-
-
-
 /*-----------------------------------------------------------------------------------*/
 // FUNCTION TO ADD RECIPE INFO AFTER CONTENT
 // @since 2.6
