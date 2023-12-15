@@ -10,9 +10,6 @@ function themebeagle_enqueue_styles() {
 
 	$version = tb_version();
 
-	// Load FontAwesome font.
-	wp_enqueue_style( 'font-awesome', get_template_directory_uri() . '/fonts/font-awesome/css/font-awesome.min.css', array(), '4.4.0' );
-
 	// Load Bootstrap stylesheet.
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/bootstrap.min.css', array(), '3.3.1' );
 

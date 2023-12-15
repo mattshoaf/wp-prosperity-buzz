@@ -811,7 +811,7 @@ return array(
 					'type' => 'notebox',
 					'name' => 'social_media_note',
 					'label' => __('Theme Settings Tip', 'themebeagle'),
-					'description' => __('The following links will serve as the site-wide, social media contact links. Individual authors may also enter their own social media links on their respective user profile page.', 'themebeagle'),
+					'description' => __('The following links will serve as the site-wide, social media contact links. Individual authors may also enter their own social media links on their respective user profile page. Installing the Font Awesome plugin is required. https://wordpress.org/plugins/font-awesome/', 'themebeagle'),
 					'status' => 'normal',
 				),
 				array(
