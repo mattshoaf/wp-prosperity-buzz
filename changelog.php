@@ -1,5 +1,13 @@
 *** WP-Prosperity Buzz Changelog ***
 /*-------------------------------------------------------*/
+// version 3.0.3 (4/13/2021) - 3.0.10 (1/29/2024)
+/*-------------------------------------------------------*/
+1. FontAwsome Updated
+2. PHP 8 compatility
+3. MetaBox fix
+4. GitHub authentication removed
+
+/*-------------------------------------------------------*/
 // 1/26/2021 - version 3
 /*-------------------------------------------------------*/
 1. Updated some depreciated jQuery functions
