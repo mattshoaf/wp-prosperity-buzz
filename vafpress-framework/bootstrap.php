@@ -16,7 +16,11 @@ require_once 'autoload.php';
 //////////////////////////
 // Load Languages       //
 //////////////////////////
-load_theme_textdomain('vp_textdomain', VP_DIR . '/lang');
+add_action('after_theme_setup', 
+	static function() {
+		load_theme_textdomain('vp_textdomain', VP_DIR . '/lang');
+	}
+);
 
 //////////////////////////
 // Setup FileSystem     //

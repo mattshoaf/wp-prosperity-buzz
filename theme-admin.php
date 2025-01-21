@@ -10,7 +10,7 @@ require_once('vafpress-framework/bootstrap.php');
 
 // Make WP-Prosperity available for translation.
 // Translations can be added to the /languages/ directory.
-load_theme_textdomain( 'themebeagle', get_template_directory() . '/languages' );
+//load_theme_textdomain( 'themebeagle', get_template_directory() . '/languages' );
 
 // require theme options data sources file
 locate_template('theme-sources.php', true, true );
